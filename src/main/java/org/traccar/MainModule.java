@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright 2018 - 2025 Anton Tananaev (anton@traccar.org)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -72,6 +72,7 @@ import org.traccar.geocoder.PositionStackGeocoder;
 import org.traccar.geocoder.PlusCodesGeocoder;
 import org.traccar.geocoder.TomTomGeocoder;
 import org.traccar.geocoder.GeocodeJsonGeocoder;
+import org.traccar.geocoder.What3WordsGeocoder;
 import org.traccar.geocoder.AutoNaviGeocoder;
 import org.traccar.geocoder.BaiduGeocoder;
 import org.traccar.geocoder.TencentGeocoder;
@@ -244,6 +245,7 @@ public class MainModule extends AbstractModule {
                 case "maptiler" -> new MapTilerGeocoder(client, key, cacheSize, addressFormat);
                 case "geoapify" -> new GeoapifyGeocoder(client, key, language, cacheSize, addressFormat);
                 case "geocodejson" -> new GeocodeJsonGeocoder(client, url, key, language, cacheSize, addressFormat);
+                case "what3words" -> new What3WordsGeocoder(client, key, language, cacheSize, addressFormat);
                 case "autonavi" -> new AutoNaviGeocoder(client, key, cacheSize, addressFormat);
                 case "baidu" -> new BaiduGeocoder(client, key, language, cacheSize, addressFormat);
                 case "tencent" -> new TencentGeocoder(client, key, cacheSize, addressFormat);
