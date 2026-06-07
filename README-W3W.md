@@ -117,15 +117,29 @@ Added `"what3words"` case to the geocoder type switch, so Traccar recognizes the
 
 ## API key
 
-Get a free What3Words API key at [developer.what3words.com](https://developer.what3words.com/public-api):
+> ⚠️ **A paid What3Words API plan is required for production use.**  
+> The free tier is limited to development/testing only and will return `QuotaExceeded` errors almost immediately with a real GPS tracker.
 
-- Free tier: 1,000 requests/day
-- For typical GPS trackers reporting every 30 seconds with 1 device: ~2,880 req/day
-- Recommended: enable the Traccar geocoder cache (`geocoder.cacheSize=1000`) to reduce API calls
+### Why the free tier is not enough
+
+A GPS device reporting every 30 seconds generates **~2,880 requests/day per device**.  
+The What3Words free tier quota is exhausted within minutes of real use.
+
+### Getting a paid plan
+
+1. Go to [developer.what3words.com](https://developer.what3words.com/public-api)
+2. Sign up and choose a **paid plan** suited for your number of devices and reporting frequency
+3. Copy your API key and set it in `traccar.xml`
+
+### Reduce API calls with caching
+
+Even with a paid plan, enable the Traccar geocoder cache to avoid duplicate requests when a device stays in the same location:
 
 ```xml
 <entry key='geocoder.cacheSize'>1000</entry>
 ```
+
+With caching, a stationary device only makes **1 request** instead of one every 30 seconds.
 
 ---
 
