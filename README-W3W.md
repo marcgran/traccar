@@ -117,29 +117,33 @@ Added `"what3words"` case to the geocoder type switch, so Traccar recognizes the
 
 ## API key
 
-> ⚠️ **A paid What3Words API plan is required for production use.**  
-> The free tier is limited to development/testing only and will return `QuotaExceeded` errors almost immediately with a real GPS tracker.
+> ⚠️ **A paid What3Words API plan is required.**  
+> The free tier does **not** include the `convert-to-3wa` endpoint (coordinates → words), which is the core feature used by this integration. A free key will return an authorization error on every position update.
 
-### Why the free tier is not enough
+### What the free tier lacks
 
-A GPS device reporting every 30 seconds generates **~2,880 requests/day per device**.  
-The What3Words free tier quota is exhausted within minutes of real use.
+This integration uses the **reverse geocoding** endpoint:
+
+```
+GET https://api.what3words.com/v3/convert-to-3wa?coordinates=LAT,LNG&key=KEY
+```
+
+This endpoint — converting GPS coordinates into a 3-word address — is **only available on paid plans**.  
+The free tier only covers the forward geocoding endpoint (`convert-to-coordinates`), which is used by the map search feature but not by the main address display.
 
 ### Getting a paid plan
 
 1. Go to [developer.what3words.com](https://developer.what3words.com/public-api)
-2. Sign up and choose a **paid plan** suited for your number of devices and reporting frequency
+2. Sign up and choose a paid plan suited for your number of devices
 3. Copy your API key and set it in `traccar.xml`
 
 ### Reduce API calls with caching
 
-Even with a paid plan, enable the Traccar geocoder cache to avoid duplicate requests when a device stays in the same location:
+Enable the Traccar geocoder cache to avoid duplicate requests when a device stays in the same location:
 
 ```xml
 <entry key='geocoder.cacheSize'>1000</entry>
 ```
-
-With caching, a stationary device only makes **1 request** instead of one every 30 seconds.
 
 ---
 
